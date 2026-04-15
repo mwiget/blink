@@ -980,6 +980,8 @@ extension SpaceController {
     if let _ = _snippetsVC {
       return
     }
+    self.currentTerm()?.resignInput()
+
     self.presentSnippetsController()
     if let _ = self._interactiveSpaceController()._blinkMenu {
       self.toggleQuickActionsAction()
@@ -990,6 +992,8 @@ extension SpaceController {
     if let _ = _snippetsVC {
       return
     }
+    self.currentTerm()?.resignInput()
+
     self.presentSnippetsControllerWithScratch()
     // if let _ = self._interactiveSpaceController()._blinkMenu {
     //   self.toggleQuickActionsAction()
