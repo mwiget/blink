@@ -439,7 +439,7 @@ struct HostView: View {
 
   @State private var _host: BKHosts?
   private var _duplicatedHost: BKHosts? = nil
-  @State private var _conflictedICloudHost: BKHosts? = nil
+  @State private var _conflictedICloudHost: BKHosts?
   @State private var _alias: String = ""
   @State private var _hostName: String = ""
   @State private var _port: String = ""
