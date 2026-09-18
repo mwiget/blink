@@ -80,7 +80,7 @@ struct DisplaySettingsView: View {
       }
 
       // -- External Display --
-      Section("External Display") {
+      Section {
         HStack {
           Text("Font Size")
           Spacer()
@@ -103,6 +103,12 @@ struct DisplaySettingsView: View {
           .labelsHidden()
           .fixedSize()
         }
+      } header: {
+        Text("External Display")
+      } footer: {
+        Text(hasAppleSilicon
+             ? "Stage — Blink stays on the screen it was launched on and leaves the external display to Stage Manager. The other modes move Blink onto the external display. Takes effect the next time a display is connected."
+             : "Mirror — Blink stays on the screen it was launched on and a connected display mirrors it. The other modes move Blink onto the external display. Takes effect the next time a display is connected.")
       }
 
       // -- Keyboard --

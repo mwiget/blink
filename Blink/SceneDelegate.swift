@@ -199,11 +199,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     _spCtrl.restoreWith(stateRestorationActivity: session.stateRestorationActivity)
 
     if session.role == .windowExternalDisplayNonInteractive,
-      let mainScene = UIApplication.shared.connectedScenes.activeAppScene() {
+       BLKDefaults.overscanCompensation() == .BKBKOverscanCompensationMirror {
+      // Leave the scene without a window so the system mirrors the device
+      // screen (or, under Stage Manager, drives both displays on its own).
+      // Checked ahead of the block below so it still holds when there is no
+      // active app scene to host the ShadowWindow.
+      return
+    }
 
-      if BLKDefaults.overscanCompensation() == .BKBKOverscanCompensationMirror {
-        return
-      }
+    if session.role == .windowExternalDisplayNonInteractive,
+      let mainScene = UIApplication.shared.connectedScenes.activeAppScene() {
 
       let window = ExternalWindow(windowScene: windowScene)
       self.window = window
