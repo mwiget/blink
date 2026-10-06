@@ -43,6 +43,8 @@ class KBConfig: ObservableObject, Codable {
   @Published var cursorBinding: KeyBinding
 
   @Published var shortcuts:     [KeyShortcut]
+
+  @Published var streamDictation: Bool
   
   private var _cancellable = Set<AnyCancellable>()
   
@@ -54,7 +56,8 @@ class KBConfig: ObservableObject, Codable {
     command:       KeyConfigPair = .command,
     fnBinding:     KeyBinding    = KeyBinding(keys: [KeyCode.commandLeft.id]),
     cursorBinding: KeyBinding    = KeyBinding(keys: [KeyCode.commandLeft.id]),
-    shortcuts:     [KeyShortcut] = KeyShortcut.defaultList
+    shortcuts:     [KeyShortcut] = KeyShortcut.defaultList,
+    streamDictation: Bool        = true
   ) {
     self.capsLock      = capsLock
     self.shift         = shift
@@ -64,6 +67,7 @@ class KBConfig: ObservableObject, Codable {
     self.fnBinding     = fnBinding
     self.cursorBinding = cursorBinding
     self.shortcuts     = shortcuts
+    self.streamDictation = streamDictation
 
     _bindNotifications()
   }
@@ -77,6 +81,7 @@ class KBConfig: ObservableObject, Codable {
     self.fnBinding = KeyBinding(keys: [KeyCode.commandLeft.id])
     self.cursorBinding = KeyBinding(keys: [KeyCode.commandLeft.id])
     self.shortcuts = KeyShortcut.defaultList
+    self.streamDictation = true
     
     _bindNotifications()
   }
@@ -108,6 +113,7 @@ class KBConfig: ObservableObject, Codable {
     case fn
     case cursor
     case shortcuts
+    case streamDictation
   }
   
   public func encode(to encoder: Encoder) throws {
@@ -120,6 +126,7 @@ class KBConfig: ObservableObject, Codable {
     try c.encode(fnBinding,     forKey: .fn)
     try c.encode(cursorBinding, forKey: .cursor)
     try c.encode(shortcuts,     forKey: .shortcuts)
+    try c.encode(streamDictation, forKey: .streamDictation)
   }
   
   required convenience init(from decoder: Decoder) throws {
@@ -133,6 +140,7 @@ class KBConfig: ObservableObject, Codable {
     let fnBinding     = try c.decode(KeyBinding.self,    forKey: .fn)
     let cursorBinding = try c.decode(KeyBinding.self,    forKey: .cursor)
     let shortcuts     = try c.decode([KeyShortcut].self, forKey: .shortcuts)
+    let streamDictation = try c.decodeIfPresent(Bool.self, forKey: .streamDictation) ?? true
     
     self.init(
       capsLock: capsLock,
@@ -142,7 +150,8 @@ class KBConfig: ObservableObject, Codable {
       command: command,
       fnBinding: fnBinding,
       cursorBinding: cursorBinding,
-      shortcuts: shortcuts
+      shortcuts: shortcuts,
+      streamDictation: streamDictation
     )
   }
   

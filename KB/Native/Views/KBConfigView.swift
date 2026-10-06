@@ -93,6 +93,12 @@ struct KBConfigView: View {
         }
       }
       Section(
+        footer: Text("Send dictated words to the terminal as you speak. When dictation revises earlier words, Blink sends backspaces to correct them.")) {
+        HStack {
+          Toggle("Live Dictation", isOn: $config.streamDictation)
+        }
+      }
+      Section(
         header: Text("Terminal"),
         footer: Text("")//Text(_connectedKeyboardVendorName == nil ? "" : "Connected Keyboard: \(_connectedKeyboardVendorName ?? "")" )
       ) {
