@@ -411,6 +411,14 @@ extension TermController: TermDeviceDelegate {
       resumeIfNeeded()
     }
 
+    // Restored without a resumable session (e.g. the app was killed while
+    // active, so nothing was archived). Start a fresh shell instead of
+    // leaving a dead terminal.
+    if _sessionPayload == nil {
+      _sessionPayload = MCPSessionPayload(params: MCPParams())
+      _startSession()
+    }
+
     guard _sessionPayload != nil else {
       print("Session Payload is nil")
       return
